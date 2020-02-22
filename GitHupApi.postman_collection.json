@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "4e942c5c-89c3-48e6-9d52-03de2866b685",
+		"name": "GitHupApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ApiUnAuthorized",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53f89884-3111-4c80-b30c-3c7e774f5c9a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/ZABehary/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"ZABehary",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ApiUnAuthorizedlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed4d2d8f-7fed-4b7c-9afe-b3e3facf0fdb",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 3000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"});",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Requires authentication\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/user/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c6f17310-2c04-4579-b980-9e4f2b48c1e5",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Hackspot\");",
+							"});",
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 3000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "Challenger2020",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "ZABehary",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://api.github.com/user/repos",
+					"protocol": "http",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UsersN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "835220bc-3cbb-489b-af6d-0e2df66de5e7",
+						"exec": [
+							"\r",
+							"pm.test(\"Pages\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.total_pages).to.eql(2);\r",
+							"   var list =jsonData.data.length;\r",
+							"      pm.expect(list).to.eql(6);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
